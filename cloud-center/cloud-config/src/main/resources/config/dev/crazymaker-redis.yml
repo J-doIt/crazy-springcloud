@@ -1,0 +1,35 @@
+spring:
+  redis:
+    blockWhenExhausted: true  # 链接耗尽时是否阻塞
+    database: 0  # 指定redis数据库
+    host: ${SCAFFOLD_REDIS_HOST:localhost}  # redis主机IP
+    maxIdle: 100   # 最大空闲连接数
+    maxTotal: 2000  # 最大连接数
+    maxWaitMillis: 60000  # 获取链接最大等待毫秒
+    minEvictableIdleTimeMillis: 1800000  # 最小空闲时间
+    numTestsPerEvictionRun: 1024  # 每次释放链接的最大数目
+    password: ${SCAFFOLD_REDIS_PSW:123456}  # 密码 如果你没有设置密码 这个配置可以不设置
+#    password:  # 密码 如果你没有设置密码 这个配置可以不设置
+    port: 6379  # redis端口
+    softMinEvictableIdleTimeMillis: 10000  # 链接空闲多久后释放
+    testOnBorrow: false  # 在使用时监测有效性
+    testWhileIdle: true  # 获取链接时检查有效性
+    timeBetweenEvictionRunsMillis: 30000  # 释放链接的扫描间隔（毫秒）
+    connTimeout: 6000  # 链接超时 ms
+    readTimeout: 6000  # 链接超时 ms
+
+distribute:
+  redis:
+    lock:
+      sha1: f5470077ed41358fb58a8178d9642136d98e3f2c
+    unlock:
+      sha1: 9b1129fae0be6498d3ceeebc241b39c4f23c5bf6
+    rateLimit:
+      sha1: 1471abe33b73530f0b9ee7e277633a93884652c4
+    seckillSucess:
+      sha1: a08d0934430138bde52a12c69b582f5ddc80ba6a
+    seckillFailed:
+      sha1: 6b4fc4a0cf2de42df1ad41f73345448625c9965b
+    seckillQueue:
+      sha1: d0ed806466edb879d785351658c2ec8eb82b426c
+

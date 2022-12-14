@@ -1,0 +1,1 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.crazymaker.springcloud.email.config.MailSenderConfiguration

@@ -1,0 +1,23 @@
+# For a quick start check out our HTTP Requests collection (Tools|HTTP Client|Open HTTP Requests Collection).
+#
+# Following HTTP Request Live Templates are available:
+# * 'gtrp' and 'gtr' create a GET request with or without query parameters;
+# * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
+# * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
+
+
+### 使用说明： 使用三个 # 来分隔多个请求
+
+GET/POST 请求地址（可拼接查询参数）
+请求头键值对
+
+请求体
+
+> {% %}
+
+# 响应处理
+# 使用 >符号 打头，和 shell 很像，然后用 {% %} 括起来的脚本内容
+# 在脚本中可以使用 javascript 原生语法，这就很强大了
+# 脚本中有几个内置对象 client 表示当前客户端，response 表示响应结果
+
+### 请求1 回显请求

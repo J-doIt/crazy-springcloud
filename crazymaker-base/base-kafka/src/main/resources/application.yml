@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: kafka-provider
+  jpa:  #配置自动建表：updata:没有表新建，有表更新操作,控制台显示建表语句
+    hibernate:
+      ddl-auto: update
+
+mq:
+  kafka:
+    bootstrap-server: cdh1:9092
+    zookeeper-server: cdh1:2181
+    retry-count: 2
+    subscribed: topic1,EmptyConsumer;topic2,EmptyConsumer;topic3,EmptyConsumer
+http:
+  connection:
+    keepAliveTimeout: 60000

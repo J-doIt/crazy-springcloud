@@ -1,0 +1,66 @@
+server:
+  port: 18100
+  servlet:
+    context-path: /ha-middleware-demo
+
+spring:
+  security:
+    enabled: false
+  profiles:
+    active: dev
+  application:
+    name: ha-middleware-demo
+  cloud:
+    nacos:
+      discovery:
+        server-addr: cdh2:8848
+        metadata:
+          user:
+            name: "admin"
+            password: "admin"
+          servlet:
+            context-path: /ha-middleware-demo
+          management:
+            context-path: ${server.servlet.context-path}/actuator
+      config:
+        server-addr: cdh2:8848
+        prefix: ha-middleware-demo
+        group: DEFAULT_GROUP
+        # 控制台创建命名空间得到的uuid
+        file-extension: yml
+#        ext-config:
+#          - data-id: crazymaker-db-dev.yml
+#            group: DEFAULT_GROUP
+#            refresh: true
+#          - data-id: crazymaker-redis-dev.yml
+#            group: DEFAULT_GROUP
+#            refresh: true
+#          - data-id: crazymaker-common-dev.yml
+#            group: DEFAULT_GROUP
+#            refresh: true
+    #    alibaba:
+    #      seata:
+    #        tx-service-group: ha-middleware-demo-seata-service-group
+    inetutils:
+      timeout-seconds: 10
+      preferred-networks: ${SCAFFOLD_PREFERRED_NETWORKS:192.168.68.}
+      prefer-ip-address: true  #访问路径可以显示IP地址
+  jpa:  #配置自动建表：updata:没有表新建，有表更新操作,控制台显示建表语句
+    hibernate:
+      ddl-auto: update
+
+ribbon:
+  eager-load:
+    enabled: true # 开启Ribbon的饥饿加载模式，启动时创建 RibbonClient
+  MaxAutoRetries: 1 # 同一台实例的最大重试次数，但是不包括首次调用，默认为1次
+  MaxAutoRetriesNextServer: 2  # 重试负载均衡其他实例的最大重试次数，不包括首次调用，默认为0次
+  OkToRetryOnAllOperations: true  # 是否对所有操作都重试，默认false
+  ServerListRefreshInterval: 2000 # 从注册中心刷新服务器列表信息的时间间隔，默认为2000毫秒，即2秒
+  retryableStatusCodes: 400,401,403,404,500,502,504
+  NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RetryRule #配置规则 重试
+  ConnectTimeout: 3000000  #连接建立的超时时长，默认1秒
+  ReadTimeout: 3000000 #处理请求的超时时间，默认为1秒
+  MaxTotalConnections: 1000  # 最大连接数
+  MaxConnectionsPerHost: 1000  # 每个host最大连接数
+  restclient:
+    enabled: true

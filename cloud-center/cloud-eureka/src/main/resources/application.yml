@@ -1,0 +1,25 @@
+server:
+  port: 7777
+spring:
+  application:
+    name: eureka-server
+  cloud:
+    inetutils:
+      timeout-seconds: 10
+      preferred-networks: ${SCAFFOLD_PREFERRED_NETWORKS:192.168.68.}
+      prefer-ip-address: true  #访问路径可以显示IP地址
+
+eureka:
+  client:
+    register-with-eureka: false   #注册中心 Provider 实例，不向注册中心注册自己
+    fetch-registry: false  #注册中心 Provider 实例，不做检索服务
+    service-url:
+      defaultZone: http://localhost:7777/eureka/   # 服务注册中心的配置内容，指定服务注册中心的位置
+  instance:
+    prefer-ip-address: true  #访问路径可以显示IP地址
+    preferred-networks: ${SCAFFOLD_PREFERRED_NETWORKS:192.168.68.}
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    ip-address: ${spring.cloud.client.ip-address}
+  server:
+    enable-self-preservation: false # 关闭自我保护，防止失效的服务也被一直访问 (默认是 true)
+    eviction-interval-timer-in-ms: 10000 # 扫描失效服务的间隔时间（单位毫秒，默认是60*1000）即60秒

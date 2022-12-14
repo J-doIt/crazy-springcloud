@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "l2cache.config-location",
+      "type": "java.lang.String"
+    }
+  ]
+}

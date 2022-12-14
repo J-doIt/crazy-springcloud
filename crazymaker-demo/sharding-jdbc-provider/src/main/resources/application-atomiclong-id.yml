@@ -1,0 +1,70 @@
+spring:
+  shardingsphere:
+    datasource:
+      names: ds0,ds1
+      ds0:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        filters: com.alibaba.druid.filter.stat.StatFilter,com.alibaba.druid.wall.WallFilter,com.alibaba.druid.filter.logging.Log4j2Filter
+        url: jdbc:mysql://cdh1:3306/store?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&useSSL=true&serverTimezone=UTC
+        password: 123456
+        username: root
+        maxActive: 20
+        initialSize: 1
+        maxWait: 60000
+        minIdle: 1
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: select 'x'
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxOpenPreparedStatements: 20
+        connection-properties: druid.stat.merggSql=ture;druid.stat.slowSqlMillis=5000
+      ds1:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        filters: com.alibaba.druid.filter.stat.StatFilter,com.alibaba.druid.wall.WallFilter,com.alibaba.druid.filter.logging.Log4j2Filter
+        url: jdbc:mysql://cdh2:3306/store?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&useSSL=true&serverTimezone=UTC
+        password: 123456
+        username: root
+        maxActive: 20
+        initialSize: 1
+        maxWait: 60000
+        minIdle: 1
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: select 'x'
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxOpenPreparedStatements: 20
+        connection-properties: druid.stat.merggSql=ture;druid.stat.slowSqlMillis=5000
+    sharding:
+      tables:
+        #逻辑表的配置很重要，直接关系到路由是否能成功
+        #shardingsphere会根据sql语言类型使用对应的路由印象进行路由，而logicTable是路由的关键字段
+        # 配置 t_order 表规则
+        t_order:
+          #真实数据节点，由数据源名 + 表名组成，以小数点分隔。多个表以逗号分隔，支持inline表达式
+          actual-data-nodes: ds$->{0..1}.t_order_$->{0..1}
+          key-generate-strategy:
+            column: order_id
+            key-generator-name: snowflake
+          table-strategy:
+            inline:
+              sharding-column: order_id
+              algorithm-expression: t_order_$->{order_id % 2}
+          database-strategy:
+            inline:
+              sharding-column: user_id
+              algorithm-expression: ds$->{user_id % 2}
+          key-generator:
+            column: order_id
+            type: AtomicLong
+            props:
+              worker.id: 123
+
+

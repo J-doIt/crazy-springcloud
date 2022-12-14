@@ -1,0 +1,31 @@
+
+
+rocketmq:
+  name-server: cdh2:9876;cdh2:9877 #rocketmq服务地址
+  producer:
+    group: rocketmq_group_1 # 必须指定group
+    send-message-timeout: 3000 # 消息发送超时时长，默认3s
+    retry-times-when-send-failed: 3 # 同步发送消息失败重试次数，默认2
+    retry-times-when-send-async-failed: 3 # 异步发送消息失败重试次数，默认2
+
+
+#elasticsearch:
+#  address: cdh2:19200
+
+elasticsearch:
+  address: 192.168.56.122:19200
+
+
+#  http://172.18.8.164:19991/minio/ 建立 bucket
+minio:
+  access: AKIAIOSFODNN7EXAMPLE
+  bucket: test
+  secret: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+  url: http://172.18.8.164:19991
+
+spring:
+  # 配置文件上传大小限制
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB

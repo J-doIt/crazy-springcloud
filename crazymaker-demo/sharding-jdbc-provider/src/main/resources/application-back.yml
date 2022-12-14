@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: sharding-jdbc-provider
+  jpa:
+    hibernate:
+      ddl-auto: none
+      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+      show-sql: true
+  profiles:
+     active: sharding-db-table    # 分库分表配置文件
+#    active: atomiclong-id    # 自定义主键的配置文件
+    #    active: replica-query    # 读写分离配置文件
+  shardingsphere:
+    props:
+      sql:
+        show: true
+    enabled: false

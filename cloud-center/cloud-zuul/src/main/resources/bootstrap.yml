@@ -1,0 +1,161 @@
+server:
+  port: 8888
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 200
+    accept-count: 1000
+    max-connections: 5000
+    min-spare-threads: 20
+    max-http-header-size: 8192
+
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    ip-address: ${spring.cloud.client.ip-address}
+    prefer-ip-address: true  #访问路径可以显示IP地址
+    status-page-url-path: /info #定义实例信息的页面地址
+    health-check-url-path: /health #定义健康检查的页面地
+  client:
+    egister-with-eureka: true #注册到eureka服务器
+    fetch-registry: true  #要不要去注册中心获取其他服务
+    serviceUrl:
+      defaultZone: ${SCAFFOLD_EUREKA_ZONE_HOSTS:http://localhost:7777/eureka/}
+
+
+spring:
+  cloud:
+    config:
+      label:  ${SCAFFOLD_LABEL:dev}   #对应的是配置文件规则中的{label}部分
+      name: crazymaker #对应的是配置文件规则中的{application}部分
+      profile: common,db,redis  #对应的是配置文件规则中的{profile}部分，可以是多个，用逗号隔开。
+      discovery:
+        enabled: true
+        service-id: config-server
+    #  zipkin:
+    #    base-url: http://${EUREKA_ZONE_HOST:localhost}:8765
+    #  sleuth:
+    #    sampler:
+    #      probability: 1.0
+
+    inetutils:
+      timeout-seconds: 10
+      preferred-networks: ${SCAFFOLD_PREFERRED_NETWORKS:192.168.68.}
+      prefer-ip-address: true  #访问路径可以显示IP地址
+
+#服务网关配置
+zuul:
+  ribbonIsolationStrategy: THREAD
+  host:
+    connect-timeout-millis: 600000
+    socket-timeout-millis: 600000
+  #路由规则
+  routes:
+      stock-provider:
+          path: /stock-provider/**
+          serviceId: stock-provider
+          strip-prefix: false
+      seckill-provider:
+          path: /seckill-provider/**
+          serviceId: seckill-provider
+          strip-prefix: false
+      message-provider:
+          path: /message-provider/**
+          serviceId: message-provider
+          strip-prefix: false
+      uaa-provider:
+          path: /uaa-provider/**
+          serviceId: uaa-provider
+          strip-prefix: false
+      backend-provider:
+          path: /backend-provider/**
+          serviceId: backend-provider
+          strip-prefix: false
+      generate-provider:
+          path: /generate-provider/**
+          serviceId: generate-provider
+          strip-prefix: false
+          sensitiveHeaders: Cookie,Set-Cookie,token,backend,Authorization
+      demo-provider:
+          path: /demo-provider/**
+          serviceId: demo-provider
+          strip-prefix: false
+      crazymakercircle-blog:
+          path: /blog/**
+          url: https://www.cnblogs.com
+          sensitiveHeaders: Cookie,Set-Cookie,token,backend,Authorization
+
+#  demo 1:  http://127.0.0.1:8888/blog/crazymakercircle/p/9904544.html
+#   demo 2:   http://127.0.0.1:8888/blog/vivotech/p/16007922.htm
+
+ribbon:
+  eager-load:
+    enabled: true
+  #说明：同一台实例的最大自动重试次数，默认为1次，不包括首次
+  MaxAutoRetries: 1
+  #说明：要重试的下一个实例的最大数量，默认为1，不包括第一次被调用的实例
+  MaxAutoRetriesNextServer: 1
+  #说明：是否所有的操作都重试，默认为true
+  OkToRetryOnAllOperations: true
+  #说明：从注册中心刷新服务器列表信息的时间间隔，默认为2000毫秒，即2秒
+  ServerListRefreshInterval: 2000
+  #说明：使用Apache HttpClient连接超时时间，单位为毫秒
+  ConnectTimeout: 300000
+  #说明：使用Apache HttpClient读取的超时时间，单位为毫秒
+  ReadTimeout: 300000
+
+
+
+feign:
+  #替换掉JDK默认HttpURLConnection实现的 Http Client
+  httpclient:
+    enabled: true
+  okhttp:
+    enabled: false
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:
+       #连接超时时间
+        connectTimeout: 5000
+       #读取超时时间
+        readTimeout: 5000
+
+
+
+hystrix:
+  threadpool:
+    default:
+      coreSize: 100
+      maximumSize: 400
+      allowMaximumSizeToDivergeFromCoreSize: true
+      maxQueueSize: -1
+  propagate:
+    request-attribute:
+      enabled: true
+  command:
+    #全局默认配置
+    default:
+      #线程隔离相关
+      execution:
+        timeout:
+          #是否给方法执行设置超时时间，默认为true。一般我们不要改。
+          enabled: true
+        isolation:
+          #配置请求隔离的方式，这里是默认的线程池方式。还有一种信号量的方式semaphore，使用比较少。
+          strategy: THREAD
+          thread:
+            #方式执行的超时时间，默认为1000毫秒，在实际场景中需要根据情况设置
+            #  The Hystrix timeout of 100000ms for the command uaa-provider is set lower than the combination of the Ribbon read and connect timeout, 2400000ms.
+            timeoutInMilliseconds: 2400001
+            #发生超时时是否中断方法的执行，默认值为true。不要改。
+            interruptOnTimeout: true
+            #是否在方法执行被取消时中断方法，默认值为false。没有实际意义，默认就好！
+            interruptOnCancel: false
+  circuitBreaker:   #熔断器相关配置
+    enabled: true   #是否启动熔断器，默认为true，false表示不要引入Hystrix。
+    requestVolumeThreshold: 20     #启用熔断器功能窗口时间内的最小请求数，假设我们设置的窗口时间为10秒，
+    sleepWindowInMilliseconds: 50000    #所以此配置的作用是指定熔断器打开后多长时间内允许一次请求尝试执行，官方默认配置为5秒。
+    errorThresholdPercentage: 50   #窗口时间内超过50%的请求失败后就会打开熔断器将后续请求快速失败掉,默认配置为50
+
+

@@ -1,0 +1,28 @@
+server:
+  port: 7700
+  servlet:
+    context-path: /sharding-jdbc-provider
+  tomcat:
+  uri-encoding: UTF-8
+  max-threads: 200
+  accept-count: 1000
+  max-connections: 5000
+  min-spare-threads: 20
+
+management:
+  endpoints:
+    # 暴露 EndPoint 以供访问，有jmx和web两种方式，exclude 的优先级高于 include
+    jmx:
+      exposure:
+        exclude: '*'
+        include: '*'
+    web:
+      exposure:
+        # exclude: '*'
+        include: ["health","info","beans","mappings","logfile","metrics","shutdown","env"]
+      base-path: /actuator  # 配置 Endpoint 的基础路径
+      cors: # 配置跨域资源共享
+        allowed-origins: http://crazydemo.com,http://zuul.server,http://nginx.server
+        allowed-methods: GET,POST
+    enabled-by-default: true # 修改全局 endpoint 默认设置
+

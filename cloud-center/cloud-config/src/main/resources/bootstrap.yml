@@ -1,0 +1,97 @@
+management:
+  endpoints:
+    # 暴露 EndPoint 以供访问，有jmx和web两种方式，exclude 的优先级高于 include
+    jmx:
+      exposure:
+        exclude: '*'
+        include: '*'
+    web:
+      exposure:
+      # exclude: '*'
+        include: ["health","info","beans","mappings","logfile","metrics","shutdown","env"]
+      base-path: /actuator  # 配置 Endpoint 的基础路径
+      cors: # 配置跨域资源共享
+        allowed-origins: http://crazydemo.com,http://zuul.server,http://nginx.server
+        allowed-methods: GET,POST
+    enabled-by-default: true # 修改全局 endpoint 默认设置
+
+spring:
+  cloud:
+    inetutils:
+      timeout-seconds: 10
+      preferred-networks: ${SCAFFOLD_PREFERRED_NETWORKS:192.168.68.}
+      prefer-ip-address: true  #访问路径可以显示IP地址
+
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    ip-address: ${spring.cloud.client.ip-address}
+    prefer-ip-address: true  #访问路径可以显示IP地址
+    status-page-url-path: /${management.endpoints.web.base-path}/info #定义实例信息的页面地址
+    health-check-url-path: /${management.endpoints.web.base-path}/health #定义健康检查的页面地
+  client:
+    egister-with-eureka: true #注册到eureka服务器
+    fetch-registry: true  #要不要去注册中心获取其他服务
+    serviceUrl:
+      defaultZone: ${SCAFFOLD_EUREKA_ZONE_HOSTS:http://localhost:7777/eureka/}
+
+ribbon:
+  eager-load:
+    enabled: true # 开启Ribbon的饥饿加载模式，启动时创建 RibbonClient
+  MaxAutoRetries: 1 # 同一台实例的最大重试次数，但是不包括首次调用，默认为1次
+  MaxAutoRetriesNextServer: 2  # 重试负载均衡其他实例的最大重试次数，不包括首次调用，默认为0次
+  OkToRetryOnAllOperations: true  # 是否对所有操作都重试，默认false
+  ServerListRefreshInterval: 2000 # 从注册中心刷新服务器列表信息的时间间隔，默认为2000毫秒，即2秒
+  retryableStatusCodes: 400,401,403,404,500,502,504
+  NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RetryRule #配置规则 重试
+  ConnectTimeout: 3000  #连接建立的超时时长，默认1秒
+  ReadTimeout: 3000 #处理请求的超时时间，默认为1秒
+  MaxTotalConnections: 1000  # 最大连接数
+  MaxConnectionsPerHost: 1000  # 每个host最大连接数
+  restclient:
+    enabled: true
+
+feign:
+  httpclient:
+      enabled: true
+      max-connections: 1000 # 默认值 200
+      max-connections-per-route: 250 # 默认值   50
+  hystrix:
+      enabled: true
+  client:
+    config:
+      default:
+         connectTimeout: 50000  #连接超时时间
+         readTimeout: 50000  #读取超时时间
+
+hystrix:
+  threadpool:
+    default:
+      coreSize: 100
+      maximumSize: 1000
+      allowMaximumSizeToDivergeFromCoreSize: true
+      maxQueueSize: -1
+  propagate:
+    request-attribute:
+      enabled: true
+  command:
+    default:  #全局默认配置
+      execution:  #线程隔离相关配置
+        timeout:
+           enabled: true   #是否给方法执行设置超时时间，默认为true。一般我们不要改。
+        isolation:
+           strategy: THREAD    #配置请求隔离的方式，这里是默认的线程池方式。还有一种信号量的方式semaphore，使用比较少。
+           thread:
+              timeoutInMilliseconds: 100000  #方式执行的超时时间，默认为1000毫秒，在实际场景中需要根据情况设置
+              interruptOnTimeout: true   #发生超时时是否中断方法的执行，默认值为true。不要改。
+              interruptOnCancel: false  #是否在方法执行被取消时中断方法，默认值为false。没有实际意义，默认就好！
+      circuitBreaker:   #熔断器相关配置
+          enabled: true   #是否启动熔断器，默认为true，false表示不要引入 Hystrix。
+          requestVolumeThreshold: 20     #启用熔断器功能窗口时间内的最小请求数，假设我们设置的窗口时间为10秒，
+          sleepWindowInMilliseconds: 5000    #此配置的作用是指定熔断器打开后多长时间内允许一次请求尝试执行，官方默认配置为5秒。
+          errorThresholdPercentage: 50   #窗口时间内超过50%的请求失败后就会打开熔断器将后续请求快速失败掉,默认配置为50
+      metrics:
+          rollingPercentile:
+              timeInMilliseconds: 60000
+              numBuckets: 600
+              bucketSize: 200

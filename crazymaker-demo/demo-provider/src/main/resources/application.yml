@@ -1,0 +1,65 @@
+spring:
+  application:
+    name: demo-provider
+  jpa:  #配置自动建表：updata:没有表新建，有表更新操作,控制台显示建表语句
+    hibernate:
+      ddl-auto: update
+  freemarker:
+    allow-request-override: false
+    allow-session-override: false
+    cache: false
+    charset: UTF-8
+    check-template-location: true
+    content-type: text/html
+    enabled: true
+    expose-request-attributes: false
+    expose-session-attributes: false
+    expose-spring-macro-helpers: true
+    prefer-file-system-access: true
+    settings:
+      classic_compatible: true
+      default_encoding: UTF-8
+      template_update_delay: 0
+    suffix: .ftl
+    template-loader-path: classpath:/templates/
+
+application:
+  message:
+    queue:
+      consumer: true
+      producer: false
+      host: ${RABBITMQ_HOST}
+      port: 5672
+      user: admin
+      password: admin
+  rate:
+      limit:
+          redis:
+              limiterInfos:
+              -   key: testKey
+                  max-permits: 300
+                  rate: 100
+              -   key: seckill
+                  max-permits: 10
+                  rate: 1
+
+
+eureka:
+  client:
+    healthcheck:
+      enabled: true   #开启客户端健康检查
+  instance:
+    lease-renewal-interval-in-seconds: 5  # 续租(心跳)频率，Client 发送心跳给 Eureka 的时间间隔，默认 30 秒
+    lease-expiration-duration-in-seconds: 15  #  租约有效期，在该时间内若client未更新租约，将剔除client，默认 90 秒
+########################################################
+### Log configuration
+### 方便Spring Boot Admin页面上实时查看日志
+### logback.xml中有详细的日志配置
+########################################################
+#logging:
+#  config: classpath:logback-spring.xml
+#  level:
+#    root: ${LOG_LEVEL:INFO}
+#    com.test.demo: info
+#  #  方便Spring Boot Admin页面上实时查看日志
+#  file: C:/logs/${spring.application.name}/logs/output.log

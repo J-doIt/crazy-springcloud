@@ -1,0 +1,46 @@
+#### 暴露端点
+management:
+  endpoints:
+    web:
+      base-path: "/actuator"  # 配置 Endpoint 的基础路径
+      exposure:
+        include: '*'  #在yaml 文件属于关键字，所以需要加引号
+  endpoint:
+    logfile:
+      # spring boot admin  client不配置日志文件路径（同时配置logback-spring.xml对应的日志输出配置，否则无法输出日志），
+      # 控制台上的Logging模块下的Logfile会报错：Fetching logfile failed.Request failed with status code 404
+      external-file: C:/logs/seata-stock-demo/logs/output.log
+      enabled: true
+    health:
+      show-details: always
+    # 未配置/注释 以下内容
+#  boot:
+#    admin:
+#      context-path: consumer
+
+
+#Seata分布式事务配置(AT模式)
+seata:
+  enabled: true
+  application-id: ${spring.application.name}
+  tx-service-group: seata-seckill-group
+  #  tx-service-group: ${spring.application.name}-seata-service-group
+  enable-auto-data-source-proxy: true
+  config:
+    type: file
+  #    nacos:
+  #      namespace: e385bfe2-e743-4910-8c32-e05759f9f9f4
+  #      serverAddr: cdh1:8848
+  #      group: DEFAULT_GROUP
+  #      username: ""
+  #      password: ""
+  #      dataId:  "stock-tm-rm-dev.yml"
+  registry:
+    type: nacos
+    nacos:
+      application: seata-server
+      server-addr: cdh1:8848
+      group: SEATA_GROUP
+      namespace: e385bfe2-e743-4910-8c32-e05759f9f9f4
+      username: ""
+      password: ""

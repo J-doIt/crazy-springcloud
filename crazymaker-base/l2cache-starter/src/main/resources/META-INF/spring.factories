@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.crazymaker.l2cache.config.J2CacheAutoConfiguration,\
+com.crazymaker.l2cache.config.J2CacheSpringCacheAutoConfiguration

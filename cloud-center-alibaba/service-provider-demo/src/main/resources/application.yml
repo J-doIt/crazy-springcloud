@@ -1,0 +1,27 @@
+#### 暴露端点
+management:
+  endpoints:
+    web:
+      base-path: "/actuator"  # 配置 Endpoint 的基础路径
+      exposure:
+        include: '*'  #在yaml 文件属于关键字，所以需要加引号
+  endpoint:
+    logfile:
+      # spring boot admin  client不配置日志文件路径（同时配置logback-spring.xml对应的日志输出配置，否则无法输出日志），
+      # 控制台上的Logging模块下的Logfile会报错：Fetching logfile failed.Request failed with status code 404
+      external-file: C:/logs/service-provider-demo/logs/output.log
+      enabled: true
+    health:
+      show-details: always
+    # 未配置/注释 以下内容
+#  boot:
+#    admin:
+#      context-path: consumer
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    export:
+      prometheus:
+        enabled: true
+        step: 1m
+        descriptions: true

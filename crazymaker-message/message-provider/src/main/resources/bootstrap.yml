@@ -1,0 +1,74 @@
+server:
+  port: 7703
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    registry-fetch-interval-seconds: 5000
+    serviceUrl:
+      defaultZone: http://${EUREKA_ZONE_HOST:localhost}:7777/eureka/
+#      defaultZone: http://127.0.0.1:7777/eureka/
+  #      defaultZone: http://192.168.17.128:7777/eureka/
+  #      defaultZone: http://${EUREKA_ZONE_HOST:localhost}:${EUREKA_ZONE_PORT:7777}/eureka/
+  instance:
+    prefer-ip-address: true  #访问路径可以显示IP地址
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+spring:
+  cloud:
+    config:
+      name: crazymaker #对应的是配置文件规则中的{application}部分
+      profile: common,db,redis  #对应的是配置文件规则中的{profile}部分，可以是多个，用逗号隔开。
+      label: dev  #对应的是配置文件规则中的{label}部分
+      discovery:
+        enabled: true
+        service-id: config-server
+#  zipkin:
+#    base-url: http://${EUREKA_ZONE_HOST:localhost}:8765
+#  sleuth:
+#    sampler:
+#      probability: 1.0
+
+
+ribbon:
+  ReadTimeout: 100000
+  ConnectTimeout: 100000
+  eager-load:
+    enabled: true
+  MaxAutoRetries: 1
+  MaxAutoRetriesNextServer: 2
+  OkToRetryOnAllOperations: false
+  ServerListRefreshInterval: 500000
+
+feign:
+  httpclient:
+    enabled: true
+ #  okhttp:
+ #    enabled: true
+  hystrix:
+    enabled: true
+
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+
+
+
+
+
+
+
+hystrix:
+  propagate:
+    request-attribute:
+      enabled: true
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 20000

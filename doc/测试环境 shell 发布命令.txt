@@ -1,0 +1,37 @@
+模块与服务的区别： 模块是打包的单位， 服务是可以运行的模块(启动后执行的模块)
+
+0 准备工作
+
+  导入 store.sql到 store库
+
+  其中有用户的名称和密码  test 123456
+
+  对于需要权限的接口，首先需要使用 用户名和密码， 获取令牌
+
+  然后带上令牌，去访问需要权限的接口
+
+1  使用 maven 打包，打成 肥包  (fatjar)
+
+2 将按照包从共享目录，解压缩到 虚拟机的工作目录如 /work (通常是/usr/local)
+
+tar  -zxvf   /vagrant/cloud-eureka-1.0-SNAPSHOT-Alpha.tar.gz   -C  /work
+tar  -zxvf   /vagrant/cloud-config-1.0-SNAPSHOT-Alpha.tar.gz   -C  /work
+tar  -zxvf   /vagrant/uaa-provider-1.0-SNAPSHOT.tar.gz   -C  /work
+tar  -zxvf   /vagrant/cloud-zuul-1.0-SNAPSHOT-Alpha.tar.gz    -C  /work
+tar  -zxvf   /vagrant/cloud-eureka-1.0-SNAPSHOT-Alpha.tar.gz    -C  /work
+
+3 通过shell 脚本启动
+
+注册中心
+/work/cloud-eureka-1.0-SNAPSHOT/bin/start.sh restart
+配置中心
+/work/cloud-config-1.0-SNAPSHOT/bin/start.sh restart
+网关
+/work/cloud-zuul-1.0-SNAPSHOT/bin/start.sh restart
+uaa 微服务
+/work/uaa-provider-1.0-SNAPSHOT/bin/start.sh start
+
+4 查看日志：
+tail -f /work/logs/uaa-provider-1.0-SNAPSHOT/output.log
+
+

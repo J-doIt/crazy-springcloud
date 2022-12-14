@@ -1,0 +1,28 @@
+server:
+  port: 18008
+#  servlet:
+#    context-path: /monitor
+#spring:
+#  boot:
+#    admin:
+#      context-path: "monitor"
+
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        # exclude: '*'
+        #        include: ["health","info","beans","mappings","logfile","metrics","shutdown","env"]
+        include: '*'
+      base-path: /actuator  # 配置 Endpoint 的基础路径
+    #  注释后 不显示 logfile 模块
+    logfile:
+      external-file: C:/logs/provider-monitor/logs/output.log  #指向日志文件地址，需与LogBack配置的日志地址一致
+  endpoint:
+    health:
+      show-details: always  # 在访问/actuator/health时显示完整信息
+  metrics:
+    tags:
+      application: ${spring.application.name}

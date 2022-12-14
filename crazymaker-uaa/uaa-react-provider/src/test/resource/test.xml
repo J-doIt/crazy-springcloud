@@ -1,0 +1,39 @@
+<application>
+    <name>uaa-react-provider</name>
+    <instance>
+        <instanceId>192.168.142.1:7702</instanceId>
+        <hostName>192.168.142.1</hostName>
+        <app>uaa-react-provider</app>
+        <ipAddr>192.168.142.1</ipAddr>
+        <status>UP</status>
+        <port enabled="true">7702</port>
+        <securePort enabled="false">443</securePort>
+        <countryId>1</countryId>
+
+        <homePageUrl>http://192.168.142.1:7702/</homePageUrl>
+        <statusPageUrl>
+            http://192.168.142.1:7702/uaa-react-provider/actuator/info
+        </statusPageUrl>
+        <healthCheckUrl>
+            http://192.168.142.1:7702/uaa-react-provider/actuator/health
+        </healthCheckUrl>
+
+    </instance>
+    <instance>
+        <instanceId>192.168.233.128:7702</instanceId>
+        <hostName>192.168.233.128</hostName>
+        <app>uaa-react-provider</app>
+        <ipAddr>192.168.233.128</ipAddr>
+        <status>UP</status>
+        <port enabled="true">7702</port>
+
+
+        <homePageUrl>http://192.168.233.128:7702/</homePageUrl>
+        <statusPageUrl>
+            http://192.168.233.128:7702/uaa-react-provider/actuator/info
+        </statusPageUrl>
+        <healthCheckUrl>
+        </healthCheckUrl>
+
+    </instance>
+</application>

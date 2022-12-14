@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="../css/index.css">
+    <style>
+        .el-header, .el-footer {
+            background-color: #B3C0D1;
+            color: #333;
+            text-align: center;
+            line-height: 60px;
+        }
+
+        .el-aside {
+            background-color: #D3DCE6;
+            color: #333;
+            text-align: center;
+            line-height: 200px;
+        }
+
+        .el-main {
+            background-color: #E9EEF3;
+            color: #333;
+            text-align: center;
+            line-height: 160px;
+        }
+
+        body > .el-container {
+            margin-bottom: 40px;
+        }
+
+        .el-container:nth-child(5) .el-aside, .el-container:nth-child(6) .el-aside {
+            line-height: 260px;
+        }
+
+        .el-container:nth-child(7) .el-aside {
+            line-height: 320px;
+        }
+
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-cloak>
+    <el-container>
+        <el-header>分布式秒杀测试</el-header>
+        <el-container>
+
+            <el-aside width="200px">请填写秒杀信息</el-aside>
+            <el-main>
+                <el-form ref="form" :model="form" label-width="80px">
+                    <el-row>
+                        <el-col :span="18">
+                            <el-form-item label="用户ID">
+                                <el-input v-model="userId"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item>
+                                <el-button limiterInfo="primary" @click.native="viewUserDetail">1 设置用户</el-button>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="18">
+                            <el-form-item label="用户信息">
+                                <el-input v-model="userDetail"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item>
+                                <!--<el-button limiterInfo="warning" @click.native="getxxx">获取库存信息</el-button>-->
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="18">
+                            <el-form-item label="秒杀ID">
+                                <el-input v-model="seckillSkuId"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item>
+                                <el-button limiterInfo="primary" @click.native="getStockNum">2 设置商品</el-button>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+
+                    <el-row>
+                        <el-col :span="18">
+                            <el-form-item label="库存数量">
+                                <el-input v-model="stockNum"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="18">
+                            <el-form-item label="库存信息">
+                                <el-input v-model="realStockNum"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item>
+                                <!--<el-button limiterInfo="warning" @click.native="getxxx">获取库存信息</el-button>-->
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+
+                    <el-row>
+                        <el-col :span="18">
+                            <el-form-item label="库存数量">
+                                <el-input v-model="newStockNum"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item>
+                                <el-button limiterInfo="primary" @click.native="setStockNum">设置库存</el-button>
+                                <!--<el-button limiterInfo="warning" @click.native="getxxx">获取库存信息</el-button>-->
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="18">
+                            <el-form-item label="秒杀令牌">
+                                <el-input v-model="seckillToken"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item>
+                                <el-button limiterInfo="primary" @click.native="getSekillToken">3.1 Java 获取令牌</el-button>
+                                <el-button limiterInfo="primary" @click.native="getSekillTokenByLua"> 3.2 Lua获取令牌
+                                </el-button>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="18">
+                            <el-form-item label="秒杀结果">
+                                <el-input v-model="seckillResult"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item>
+                                <el-button limiterInfo="primary" @click.native="doSeckill">4 开始秒杀</el-button>
+                                <el-button limiterInfo="primary" @click.native="clearSeckill">5 清除秒杀</el-button>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="24">
+                            <el-form-item>
+                                <span v-html="message"></span>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </el-form>
+            </el-main>
+        </el-container>
+    </el-container>
+</div>
+</body>
+<!-- import Vue before Element -->
+<script src="../js/vue.js"></script>
+<!-- import JavaScript -->
+<script src="../js/index.js"></script>
+<script src="../js/jquery-1.9.1.min.js" limiterInfo="text/javascript"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                seckillSkuId: 1,
+                form: {},
+                userId: 1,
+                userDetail: "点击右边设置用户,获取用户",
+                newStockNum: "填写库存数量,然后,点击右边设置秒杀库存",
+                stockNum: '-',
+                realStockNum: '',
+                count: 100,
+                seckillToken: '请获取秒杀令牌',
+                seckillResult: '',
+                message: '',
+                orderQualificationCode: null
+            }
+        },
+        methods: {
+            viewUserDetail: function () {
+                var params = {'userId': this.userId};
+                $.ajax({
+                    type: "GET",
+                    url: '/uaa-provider/api/user/detail/v1?userId=' + params.userId,
+                    dataType: "text",
+                    contentType: "application/json",
+                    // data: JSON.stringify(params),
+                    async: true,
+                    beforeSend: function (request) {
+                        // alert(params.id);
+                        request.setRequestHeader("USER-ID", params.userId);
+                    },
+                    success: function (data) {
+                        // alert(data);
+                        this.userDetail = "'" + data + "'";
+                    }.bind(this)
+                });
+            },
+            getStockNum: function () {
+                var params = {'seckillSkuId': this.seckillSkuId, 'userId': this.userId};
+                $.ajax({
+                    type: "POST",
+                    url: '/seckill-provider/api/seckill/sku/detail/v1',
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(params),
+                    async: true,
+                    beforeSend: function (request) {
+                        request.setRequestHeader("USER-ID", params.userId);
+                    },
+                    success: function (data) {
+                        // this.stockNum = "'" + data + "'";
+                        this.realStockNum = "'" + JSON.stringify(data) + "'";
+                        if (data.respCode == 0) {
+                            this.stockNum = "真实库存剩余：" + data.datas.stockCount + "；原始库存： " + data.datas.rawStockCount;
+                        } else {
+                            this.$message({
+                                message: data.responseMsg,
+                                limiterInfo: 'error'
+                            });
+                        }
+                    }.bind(this)
+                });
+            },
+            setStockNum: function () {
+                var params = {
+                    'seckillSkuId': this.seckillSkuId,
+                    'newStockNum': this.newStockNum,
+                    'userId': this.userId
+                };
+                $.ajax({
+                    type: 'PUT',
+                    url: '/seckill-provider/api/seckill/sku/stock/v1',
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(params),
+                    async: true,
+                    beforeSend: function (request) {
+                        request.setRequestHeader("USER-ID", params.userId);
+                    },
+                    success: function (data) {
+                        this.realStockNum = JSON.stringify(data);
+                        if (data.respCode == 0) {
+                            this.stockNum = "真实库存剩余：" + data.datas.stockCount + "；原始库存： " + data.datas.rawStockCount;
+                        } else {
+                            this.$message({
+                                message: data.resp_msg,
+                                limiterInfo: 'error'
+                            });
+                        }
+                    }.bind(this)
+                });
+            },
+            getSekillToken: function () {
+                var params = {
+                    'seckillSkuId': this.seckillSkuId,
+                    'userId': this.userId
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: '/seckill-provider/api/seckill/redis/token/v1',
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(params),
+                    async: true,
+                    beforeSend: function (request) {
+                        request.setRequestHeader("USER-ID", params.userId);
+                    },
+                    success: function (data) {
+                        this.seckillToken = JSON.stringify(data);
+                        if (data.respCode == 0) {
+                            this.seckillToken = data.datas;
+                        } else {
+                            this.$message({
+                                message: data.resp_msg,
+                                limiterInfo: 'error'
+                            });
+                        }
+                    }.bind(this)
+                });
+            },
+            getSekillTokenByLua: function () {
+                var params = {
+                    'seckillSkuId': this.seckillSkuId,
+                    'userId': this.userId
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: '/seckill-provider/api/seckill/redis/token/v2',
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(params),
+                    async: true,
+                    beforeSend: function (request) {
+                        request.setRequestHeader("USER-ID", params.userId);
+                    },
+                    success: function (data) {
+                        this.seckillToken = JSON.stringify(data);
+                        if (data.respCode == 0) {
+                            this.seckillToken = data.datas;
+                        } else {
+                            this.$message({
+                                message: data.resp_msg,
+                                limiterInfo: 'error'
+                            });
+                        }
+                    }.bind(this)
+                });
+            },
+            doSeckill: function () {
+                var params = {
+                    'seckillSkuId': this.seckillSkuId,
+                    'userId': this.userId,
+                    'seckillToken': this.seckillToken
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: '/seckill-provider/api/seckill/redis/do/v1',
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(params),
+                    async: true,
+                    beforeSend: function (request) {
+                        request.setRequestHeader("USER-ID", params.userId);
+                    },
+                    success: function (data) {
+                        this.seckillResult = JSON.stringify(data);
+                        if (data.respCode == 0) {
+                            // this.seckillResult =  JSON.stringify(data);
+                        } else {
+                            this.$message({
+                                message: data.resp_msg,
+                                limiterInfo: 'error'
+                            });
+                        }
+                    }.bind(this)
+                });
+            },
+      clearSeckill: function () {
+                var params = {
+                    'seckillSkuId': this.seckillSkuId,
+                    'userId': this.userId,
+                    'seckillToken': this.seckillToken
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: '/seckill-provider/api/seckill/order/user/clear/v1',
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(params),
+                    async: true,
+                    beforeSend: function (request) {
+                        request.setRequestHeader("USER-ID", params.userId);
+                    },
+                    success: function (data) {
+                        this.seckillResult = JSON.stringify(data);
+                        if (data.respCode == 0) {
+                            // this.seckillResult =  JSON.stringify(data);
+                        } else {
+                            this.$message({
+                                message: data.resp_msg,
+                                limiterInfo: 'error'
+                            });
+                        }
+                    }.bind(this)
+                });
+            }
+
+        }
+    })
+</script>
+</html>

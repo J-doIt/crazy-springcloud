@@ -1,0 +1,4 @@
+server:
+  port: 6601
+  servlet:
+    context-path: /seckill-web

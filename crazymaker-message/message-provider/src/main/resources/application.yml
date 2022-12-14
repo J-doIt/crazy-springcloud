@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: message-provider
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        dialect: org.hibernate.dialect.MySQL5Dialect
+#  rabbitmq:
+#    host: ${RABBITMQ_HOST}
+#    port: 5672
+#    username: admin
+#    password: admin
+application:
+  message:
+    queue:
+      consumer: true
+      producer: true
+      host: ${RABBITMQ_HOST}
+      port: 5672
+      user: admin
+      password: admin
+
+#zipkin:
+#  rabbitmq:
+#    queue: zipkin
+

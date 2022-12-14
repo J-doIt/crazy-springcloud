@@ -1,0 +1,16 @@
+#### 暴露端点
+management:
+  endpoints:
+    web:
+      base-path: "/actuator"  # 配置 Endpoint 的基础路径
+      exposure:
+        include: '*'  #在yaml 文件属于关键字，所以需要加引号
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: ${spring.application.name}
+#  boot:
+#    admin:
+#      context-path: consumer

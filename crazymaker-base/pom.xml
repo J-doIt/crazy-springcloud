@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>crazymaker-server</artifactId>
+        <groupId>com.crazymaker.springcloud</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>crazymaker-base</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <!--系统公共类、常量-->
+        <module>base-common</module>
+        <!--系统公共的线程池配置、属性等等-->
+        <module>base-runtime</module>
+        <!--缓存公共组件-->
+        <module>base-redis</module>
+        <!--分布式协调公共组件-->
+        <module>base-zookeeper</module>
+        <!--分布式session 公共组件-->
+        <module>base-session</module>
+
+        <!--redission 缓存客户端的starter启动组件-->
+        <module>redission-starter</module>
+
+        <!--2级缓存的starter启动组件-->
+        <module>l2cache-starter</module>
+
+        <!--用户认证 公共组件-->
+        <module>base-auth</module>
+
+        <!--kafka 操作的公共组件-->
+        <module>base-kafka</module>
+
+        <!--邮件 操作的公共组件-->
+        <module>base-email</module>
+    </modules>
+
+    <!-- 引入 spring-cloud模块 -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.kafka</groupId>
+                <artifactId>kafka-clients</artifactId>
+                <version>2.2.1</version>
+                <!--            <version>${kafka.version}</version>-->
+            </dependency>
+            <dependency>
+                <groupId>org.apache.kafka</groupId>
+                <artifactId>kafka-streams</artifactId>
+                <version>${kafka.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.kafka</groupId>
+                <artifactId>kafka-streams-test-utils</artifactId>
+                <version>${kafka.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.kafka</groupId>
+                <artifactId>kafka_2.12</artifactId>
+                <version>${kafka.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-messaging</artifactId>
+                <!--                <version>5.0.2.RELEASE</version>-->
+                <version>${spring-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.retry</groupId>
+                <artifactId>spring-retry</artifactId>
+                <version>${spring-retry-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <!--                <version>5.0.2.RELEASE</version>-->
+                <version>${spring-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <!--                <version>5.0.2.RELEASE</version>-->
+                <version>${spring-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <!--                <version>5.0.2.RELEASE</version>-->
+                <version>${spring-version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

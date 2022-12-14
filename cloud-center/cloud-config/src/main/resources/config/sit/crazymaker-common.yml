@@ -1,0 +1,33 @@
+ogging:
+  config: classpath:logback.xml
+multipart:
+  maxFileSize: 100Mb
+  maxRequestSize: 100Mb
+  uploadTempDir: c:/upload/springboot/
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration
+  http:
+    encoding:
+      charset: utf-8
+      enabled: true
+      force: true
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  profiles:
+    active: dev
+  server:
+    tomcat:
+      uri-encoding: UTF-8
+  servlet:
+    multipart:
+      max-file-size: '100Mb'
+      max-request-size: '100Mb'
+
+zookeeper:
+  address: ${SCAFFOLD_ZOOKEEPER_HOSTS:127.0.0.1:2181}
+
+rocketmq:
+  address: ${SCAFFOLD_ROCKETMQ_HOSTS:192.168.56.121:9876}
+

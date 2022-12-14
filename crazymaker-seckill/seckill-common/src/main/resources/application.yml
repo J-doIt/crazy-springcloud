@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: seckill-common
+  jpa:  #配置自动建表：updata:没有表新建，有表更新操作,控制台显示建表语句
+    hibernate:
+      ddl-auto: update
+
+application:
+  message:
+    queue:
+      consumer: true
+      producer: false
+      host: ${RABBITMQ_HOST}
+      port: 5672
+      user: admin
+      password: admin
+
+
+
+http:
+  connection:
+     keepAliveTimeout: 60000

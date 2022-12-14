@@ -1,0 +1,10 @@
+{
+  "message": "success",
+  "ncov_city_data": {
+    "420600": {
+      "updateTime": 1582256741,
+      "cityCode": "420600",
+      "cityName": "襄阳"
+    }
+  }
+}

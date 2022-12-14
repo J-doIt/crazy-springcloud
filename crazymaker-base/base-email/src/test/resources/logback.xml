@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="10 seconds">
+
+    <!-- 日志级别从低到高分为TRACE < DEBUG < INFO < WARN < ERROR < FATAL，如果设置为WARN，则低于WARN的信息都不会输出 -->
+
+    <contextName>logback</contextName>
+    <!-- name的值是变量的名称，value的值时变量定义的值。通过定义的值会被插入到logger上下文中。定义变量后，可以使“${}”来使用变量。 -->
+    <property name="log.path" value="${catalina.base}/logs/resource"/>
+
+
+    <!--输出到控制台-->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>debug</level>
+        </filter>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{20} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    Connected to the target VM, address: '127.0.0.1:56480', transport: 'socket'
+    17:04:17,309 |-INFO in ch.qos.logback.classic.LoggerContext[logback] - Could NOT find resource [logback-test.xml]
+    17:04:17,309 |-INFO in ch.qos.logback.classic.LoggerContext[logback] - Could NOT find resource [logback.groovy]
+    17:04:17,309 |-INFO in ch.qos.logback.classic.LoggerContext[logback] - Found resource [logback.xml] at
+    [file:/F:/refer/springcloud/seckill/springcloud_seckill/crazymaker-base/standard-starter/target/test-classes/logback.xml]
+    17:04:17,413 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - debug attribute not set
+    17:04:17,431 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - Will scan for changes in
+    [file:/F:/refer/springcloud/seckill/springcloud_seckill/crazymaker-base/standard-starter/target/test-classes/logback.xml]
+    17:04:17,431 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - Setting ReconfigureOnChangeTask
+    scanning period to 10 seconds
+    17:04:17,474 |-INFO in ch.qos.logback.classic.joran.action.ContextNameAction - Setting logger context name as
+    [logback]
+    17:04:17,478 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type
+    [ch.qos.logback.core.ConsoleAppender]
+    17:04:17,486 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [CONSOLE]
+    17:04:17,594 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type
+    [ch.qos.logback.core.rolling.RollingFileAppender]
+    17:04:17,608 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [INFO_FILE]
+    17:04:17,646 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@221634215 - No compression will be used
+    17:04:17,650 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@221634215 - Will use the pattern
+    catalina.base_IS_UNDEFINED/logs/resource/info/log-info-%d{yyyy-MM-dd}.%i.log for the active file
+    17:04:17,657 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7770f470 - The date pattern is 'yyyy-MM-dd'
+    from file name pattern 'catalina.base_IS_UNDEFINED/logs/resource/info/log-info-%d{yyyy-MM-dd}.%i.log'.
+    17:04:17,657 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7770f470 - Roll-over at midnight.
+    17:04:17,663 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7770f470 - Setting initial period to Sat
+    Nov 16 17:03:47 CST 2019
+    17:04:17,664 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7770f470 - SizeAndTimeBasedFNATP is
+    deprecated. Use SizeAndTimeBasedRollingPolicy instead
+    17:04:17,664 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@7770f470 - For more information see
+    http://logback.qos.ch/manual/appenders.html#SizeAndTimeBasedRollingPolicy
+    17:04:17,675 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[INFO_FILE] - Active log file name:
+    catalina.base_IS_UNDEFINED/logs/resource/log_info.log
+    17:04:17,675 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[INFO_FILE] - File property is set to
+    [catalina.base_IS_UNDEFINED/logs/resource/log_info.log]
+    17:04:17,677 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type
+    [ch.qos.logback.core.rolling.RollingFileAppender]
+    17:04:17,677 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [ERROR_FILE]
+    17:04:17,683 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1583159071 - No compression will be used
+    17:04:17,689 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1583159071 - Will use the pattern
+    catalina.base_IS_UNDEFINED/logs/resource/error/log-error-%d{yyyy-MM-dd}.%i.log for the active file
+    17:04:17,690 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@24313fcc - The date pattern is 'yyyy-MM-dd'
+    from file name pattern 'catalina.base_IS_UNDEFINED/logs/resource/error/log-error-%d{yyyy-MM-dd}.%i.log'.
+    17:04:17,690 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@24313fcc - Roll-over at midnight.
+    17:04:17,691 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@24313fcc - Setting initial period to Sat
+    Nov 16 14:32:22 CST 2019
+    17:04:17,691 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@24313fcc - SizeAndTimeBasedFNATP is
+    deprecated. Use SizeAndTimeBasedRollingPolicy instead
+    17:04:17,691 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@24313fcc - For more information see
+    http://logback.qos.ch/manual/appenders.html#SizeAndTimeBasedRollingPolicy
+    17:04:17,693 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[ERROR_FILE] - Active log file name:
+    catalina.base_IS_UNDEFINED/logs/resource/log_error.log
+    17:04:17,693 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[ERROR_FILE] - File property is set to
+    [catalina.base_IS_UNDEFINED/logs/resource/log_error.log]
+    17:04:17,693 |-INFO in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to INFO
+    17:04:17,693 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [CONSOLE] to
+    Logger[ROOT]
+    17:04:17,694 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [INFO_FILE] to
+    Logger[ROOT]
+    17:04:17,694 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [ERROR_FILE] to
+    Logger[ROOT]
+    17:04:17,695 |-INFO in ch.qos.logback.classic.joran.action.LoggerAction - Setting level of logger
+    [com.crazymaker.springcloud.seckill] to DEBUG
+    17:04:17,695 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - End of configuration.
+    17:04:17,696 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@7d20d0b - Registering current configuration as
+    safe fallback point
+
+    17:04:17.922 [RxIoScheduler-2] INFO c.c.d.r.b.SchedulerDemo - produce ->0
+    17:04:17.932 [RxIoScheduler-2] INFO c.c.d.r.b.SchedulerDemo - produce ->1
+    17:04:17.932 [RxNewThreadScheduler-1] INFO c.c.d.r.b.SchedulerDemo - consumer ->0
+    17:04:17.933 [RxIoScheduler-2] INFO c.c.d.r.b.SchedulerDemo - produce ->2
+    17:04:17.933 [RxNewThreadScheduler-1] INFO c.c.d.r.b.SchedulerDemo - consumer ->1
+    17:04:17.933 [RxIoScheduler-2] INFO c.c.d.r.b.SchedulerDemo - produce ->3
+    17:04:17.933 [RxNewThreadScheduler-1] INFO c.c.d.r.b.SchedulerDemo - consumer ->2
+    17:04:17.933 [RxIoScheduler-2] INFO c.c.d.r.b.SchedulerDemo - produce ->4
+    17:04:17.933 [RxNewThreadScheduler-1] INFO c.c.d.r.b.SchedulerDemo - consumer ->3
+    17:04:17.933 [RxNewThreadScheduler-1] INFO c.c.d.r.b.SchedulerDemo - consumer ->4
+    <!-- 时间滚动输出 level为 INFO 日志 -->
+    <appender name="INFO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 正在记录的日志文件的路径及文件名 -->
+        <file>${log.path}/log_info.log</file>
+        <!--日志文件输出格式-->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!-- 日志记录器的滚动策略，按日期，按大小记录 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 每天日志归档路径以及格式 -->
+            <fileNamePattern>${log.path}/info/log-info-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!--日志文件保留天数-->
+            <maxHistory>15</maxHistory>
+        </rollingPolicy>
+        <!-- 此日志文件只记录info级别的 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>info</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- 时间滚动输出 level为 ERROR 日志 -->
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 正在记录的日志文件的路径及文件名 -->
+        <file>${log.path}/log_error.log</file>
+        <!--日志文件输出格式-->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <charset>UTF-8</charset> <!-- 此处设置字符集 -->
+        </encoder>
+        <!-- 日志记录器的滚动策略，按日期，按大小记录 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/error/log-error-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!--日志文件保留天数-->
+            <maxHistory>15</maxHistory>
+        </rollingPolicy>
+        <!-- 此日志文件只记录ERROR级别的 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!--开发环境:打印控制台-->
+    <root level="info">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="INFO_FILE"/>
+        <appender-ref ref="ERROR_FILE"/>
+    </root>
+
+    <!--<springProfile name="dev">-->
+    <logger name="com.crazymaker.springcloud.seckill" level="debug"/>
+    <!--</springProfile>-->
+
+</configuration>

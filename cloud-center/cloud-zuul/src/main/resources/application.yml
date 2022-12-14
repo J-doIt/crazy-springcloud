@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: cloud-zuul
+zuul:
+  sensitiveHeaders:
+#  sensitiveHeaders: Cookie,Set-Cookie,token,backend,Authorization
+
+
+eureka:
+  client:
+    healthcheck:
+      enabled: true   #开启客户端健康检查
+
+
+server:
+  servlet:
+    context-path: /

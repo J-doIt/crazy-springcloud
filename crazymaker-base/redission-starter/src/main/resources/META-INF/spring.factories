@@ -1,0 +1,2 @@
+#-------starter--------
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.crazymaker.redission.demo.config.RedissonAutoConfiguration

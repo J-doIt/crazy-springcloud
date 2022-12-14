@@ -1,0 +1,61 @@
+spring:
+  application:
+    name: uaa-react-provider
+  jpa:  #配置自动建表：updata:没有表时新建，有表更新操作,控制台显示建表语句
+    hibernate:
+      ddl-auto: update
+  autoconfigure:
+    exclude:
+        - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+        - org.springframework.boot.autoconfigure.security.reactive.ReactiveSecurityAutoConfiguration
+        - org.springframework.boot.autoconfigure.security.reactive.ReactiveUserDetailsServiceAutoConfiguration
+        - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+        - org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration
+        - org.springframework.boot.autoconfigure.session.RedisSessionConfiguration
+        - org.springframework.boot.autoconfigure.session.RedisSessionConfiguration$SpringBootRedisHttpSessionConfiguration
+        - org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration
+        # Remove unused auto-configuration
+        - org.springframework.boot.autoconfigure.cassandra.CassandraAutoConfiguration
+        - org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration
+        - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+        - org.springframework.boot.autoconfigure.jooq.JooqAutoConfiguration
+        - org.springframework.boot.autoconfigure.jms.activemq.ActiveMQAutoConfiguration
+        - org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration
+        - org.springframework.boot.autoconfigure.task.TaskSchedulingAutoConfiguration
+http:
+  connection:
+     keepAliveTimeout: 60000
+
+
+eureka:
+  client:
+    healthcheck:
+      enabled: true   #开启客户端健康检查
+  instance:
+    lease-renewal-interval-in-seconds: 5  # 续租(心跳)频率，Client 发送心跳给 Eureka 的时间间隔，默认 30 秒
+    lease-expiration-duration-in-seconds: 15  #  租约有效期，在该时间内若client未更新租约，将剔除client，默认 90 秒
+
+
+    # 未配置/注释 以下内容
+#  boot:
+#    admin:
+#      context-path: consumer
+
+
+
+#management:
+#  endpoints:
+#    # 暴露 EndPoint 以供访问，有jmx和web两种方式，exclude 的优先级高于 include
+#    jmx:
+#      exposure:
+#        exclude: '*'
+#        include: '*'
+#    web:
+#      exposure:
+#      # exclude: '*'
+#        include: ["health","info","beans","mappings","logfile","metrics","shutdown","env"]
+#      base-path: /actuator  # 配置 Endpoint 的基础路径
+#      cors: # 配置跨域资源共享
+#        allowed-origins: http://crazydemo.com,http://zuul.server,http://nginx.server
+#        allowed-methods: GET,POST
+#    enabled-by-default: true # 修改全局 endpoint 默认设置

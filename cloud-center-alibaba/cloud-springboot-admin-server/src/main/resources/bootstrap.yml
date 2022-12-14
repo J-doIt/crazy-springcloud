@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: provider-monitor
+  security:
+    user:
+      name: "admin"
+      password: "admin"
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_SERVER:cdh1:8848}
+        metadata:
+          user:
+            name: "admin"
+            password: "admin"
+      config:
+        server-addr: ${NACOS_SERVER:cdh1:8848}
+    inetutils:
+      timeout-seconds: 10
+      preferred-networks: ${SCAFFOLD_PREFERRED_NETWORKS:192.168.68.}
+      prefer-ip-address: true  #访问路径可以显示IP地址
+
+
+########################################################
+### Log configuration
+### 方便Spring Boot Admin页面上实时查看日志
+### logback.xml中有详细的日志配置
+########################################################
+#logging:
+#  config: classpath:logback-spring.xml
+#  level:
+#    root: ${LOG_LEVEL:INFO}
+#    com.test.demo: info
+#  #  方便Spring Boot Admin页面上实时查看日志
+#  file: C:/logs/provider-monitor/logs/output.log

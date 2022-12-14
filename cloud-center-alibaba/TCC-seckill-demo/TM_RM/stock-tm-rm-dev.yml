@@ -1,0 +1,110 @@
+seata:
+  enabled: true
+  application-id: seata-stock-demo
+  tx-service-group: seata-stock-demo-seata-service-group    #客户端和服务端在同一个事务组
+  enable-auto-data-source-proxy: true
+  use-jdk-proxy: false
+  excludes-for-auto-proxying: firstClassNameForExclude,secondClassNameForExclude
+  client:
+    rm:
+      async-commit-buffer-limit: 1000
+      report-retry-count: 5
+      table-meta-check-enable: false
+      report-success-enable: false
+      saga-branch-register-enable: false
+      lock:
+        retry-interval: 10
+        retry-times: 30
+        retry-policy-branch-rollback-on-conflict: true
+    tm:
+      commit-retry-count: 5
+      rollback-retry-count: 5
+    undo:
+      data-validation: true
+      log-serialization: jackson
+      log-table: undo_log
+    log:
+      exceptionRate: 100
+  service:
+    vgroupMapping:   #   old vgroup-mapping:
+      my_test_tx_group: default
+      seata-stock-demo-seata-service-group: default
+    grouplist:
+      default: 127.0.0.1:8091
+    enable-degrade: false
+    disable-global-transaction: false
+  transport:
+    shutdown:
+      wait: 3
+    thread-factory:
+      boss-thread-prefix: NettyBoss
+      worker-thread-prefix: NettyServerNIOWorker
+      server-executor-thread-prefix: NettyServerBizHandler
+      share-boss-worker: false
+      client-selector-thread-prefix: NettyClientSelector
+      client-selector-thread-size: 1
+      client-worker-thread-prefix: NettyClientWorkerThread
+      worker-thread-size: default
+      boss-thread-size: 1
+    type: TCP
+    server: NIO
+    heartbeat: true
+    serialization: seata
+    compressor: none
+    enable-client-batch-send-request: true
+  config:
+    type: nacos
+    consul:
+      server-addr: 127.0.0.1:8500
+    apollo:
+      apollo-meta: http://192.168.1.204:8801
+      app-id: seata-server
+      namespace: application
+    etcd3:
+      server-addr: http://localhost:2379
+    nacos:
+      serverAddr: cdh1:8848
+      group: SEATA_GROUP
+      namespace: "e385bfe2-e743-4910-8c32-e05759f9f9f4"
+      userName: "nacos"
+      password: "nacos"
+    zk:
+      server-addr: 127.0.0.1:2181
+      session-timeout: 6000
+      connect-timeout: 2000
+      username: ""
+      password: ""
+  registry:
+    type: nacos
+    consul:
+      server-addr: 127.0.0.1:8500
+    etcd3:
+      serverAddr: http://localhost:2379
+    eureka:
+      weight: 1
+      service-url: http://localhost:8761/eureka
+    nacos:
+      serverAddr: cdh1:8848
+      group: SEATA_GROUP
+      namespace: "e385bfe2-e743-4910-8c32-e05759f9f9f4"
+      userName: "nacos"
+      password: "nacos"
+      application: seata-server
+    redis:
+      server-addr: localhost:6379
+      db: 0
+      password:
+      timeout: 0
+    sofa:
+      server-addr: 127.0.0.1:9603
+      region: DEFAULT_ZONE
+      datacenter: DefaultDataCenter
+      group: SEATA_GROUP
+      addressWaitTime: 3000
+      application: default
+    zk:
+      server-addr: 127.0.0.1:2181
+      session-timeout: 6000
+      connect-timeout: 2000
+      username: ""
+      password: ""

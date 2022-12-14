@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: redission-demo-provider
+  jpa:  #配置自动建表：updata:没有表新建，有表更新操作,控制台显示建表语句
+    hibernate:
+      ddl-auto: update
+
+application:
+  message:
+    queue:
+      consumer: true
+      producer: false
+      host: ${RABBITMQ_HOST}
+      port: 5672
+      user: admin
+      password: admin
+  redisson:
+    server:
+      type: standalone   #  连接类型
+      database: 0  # 指定redis数据库
+      address: cdh1:6379  # redis主机地址，ip：port，有多个用半角逗号分隔
+      password: admin  # 密码 如果你没有设置密码 这个配置可以不设置
+      port: 6379  # redis端口
+
+http:
+  connection:
+     keepAliveTimeout: 60000

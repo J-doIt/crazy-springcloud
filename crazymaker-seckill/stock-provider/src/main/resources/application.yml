@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: stock-provider
+  jpa:  #配置自动建表：updata:没有表新建，有表更新操作,控制台显示建表语句
+    hibernate:
+      ddl-auto: update
+  cache:
+    type: GENERIC
+
+
+
+http:
+  connection:
+     keepAliveTimeout: 60000
+
+
+j2cache:
+  allow-null-values: true
+  cache-clean-mode: active
+  config-location: j2cache-dev.properties
+  j2CacheConfig:
+    serialization: json
+  l2-cache-open: true
+  open-spring-cache: true
+
+rocketmq:
+  name-server: http://${SCAFFOLD_ROCKETMQ_HOSTS:192.168.56.121:9876} #rocketmq服务地址
+  producer:
+    group: rocketmq_test #自定义的组名称
+    send-message-timeout: 3000  #消息发送超时时长
